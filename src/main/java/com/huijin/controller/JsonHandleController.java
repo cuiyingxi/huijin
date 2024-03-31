@@ -160,4 +160,17 @@ public class JsonHandleController {
         return ResponseEntity.ok("保存json成功");
     }
 
+    /**
+     * 根据excel名称、sheet名称以及需要解析的列，返回json格式解析数据
+     * sheetNameConfig格式：sheetName:
+     * 示例：sheetName1:2:
+     * @return json
+     */
+    @GetMapping("/getJsonBySheetNameAndColumn")
+    @ResponseBody
+    public ResponseEntity<String> getJsonBySheetNameAndColumn(String excelName, String sheetNameConfig) {
+
+        return ResponseEntity.ok("");
+    }
+
 }

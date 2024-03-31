@@ -163,7 +163,9 @@ public class HelloController {
         }
         inputStream.close();
         workbook.close();
-        model.addAttribute("userJson", jsonArray.toJSONString());
+        JSONObject result = new JSONObject();
+        result.put("data", jsonArray);
+        model.addAttribute("userJson", result.toJSONString());
         return "success";
     }
 }
