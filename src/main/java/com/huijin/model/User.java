@@ -2,44 +2,60 @@ package com.huijin.model;
 
 public class User {
 
-    private long id;
+    private String id;
     private String userName;
     private String password;
-    private int age;
+    private String project;
+    private Long phoneNumber;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public User setId(long id) {
+    public void setId(String id) {
         this.id = id;
-        return this;
     }
 
     public String getUserName() {
         return userName;
     }
 
-    public User setUserName(String userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
-        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public User setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
 
-    public int getAge() {
-        return age;
+    public String getProject() {
+        return project;
     }
 
-    public User setAge(int age) {
-        this.age = age;
-        return this;
+    public void setProject(String project) {
+        this.project = project;
+    }
+
+    public Long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(Long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", project='" + project + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                '}';
     }
 }

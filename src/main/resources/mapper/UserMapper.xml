@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huijin.mapper.UserMapper">
+    <resultMap id="user" type="com.huijin.model.User">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="project" jdbcType="VARCHAR" property="project"/>
+        <result column="phone_number" jdbcType="BIGINT" property="phoneNumber"/>
+    </resultMap>
+
+
+    <select id="getAllUser" resultMap="user">
+          select id,name,password,project,phone_number from huijin_user
+    </select>
+
+    <select id="findUserById" resultMap="user" parameterType = "java.lang.String">
+        select id,name,password,project,phone_number from huijin_user
+        where id = #{id}
+    </select>
+    <update id="save" parameterType="com.huijin.model.User">
+        insert into huijin_user(id,name,password,project,phone_number)
+        values (#{user.id},#{user.userName},#{user.password},#{user.project},#{user.phoneNumber})
+    </update>
+    <update id="edit" parameterType="com.huijin.model.User">
+        update huijin_user
+        set name = #{user.userName}, password = #{user.password}, project = #{user.project}, phone_number = #{user.phoneNumber}
+        where id = #{user.id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from huijin_user where id = #{id}
+    </delete>
+
+</mapper>
