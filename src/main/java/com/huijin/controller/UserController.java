@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+/**
+ * 用户增删改查
+ */
 @Controller
 @RequestMapping("/user")
 public class UserController {

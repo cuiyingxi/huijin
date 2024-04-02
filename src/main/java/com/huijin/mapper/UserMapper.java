@@ -20,4 +20,5 @@ public interface UserMapper {
 
     void delete(@Param("id") String id);
 
+    User findUserByNameAndPassword(@Param("user") User user);
 }

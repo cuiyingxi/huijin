@@ -16,4 +16,6 @@ public interface UserService {
 
     public void delete(String id);
 
+    public User findUserByNameAndPassword(User user);
+
 }

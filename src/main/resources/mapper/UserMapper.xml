@@ -32,4 +32,8 @@
         delete from huijin_user where id = #{id}
     </delete>
 
+    <select id="findUserByNameAndPassword" resultMap="user">
+        select id,name,password,project,phone_number from huijin_user
+        where name = #{user.userName} and password = #{user.password} and phone_number = #{user.phoneNumber}
+    </select>
 </mapper>
