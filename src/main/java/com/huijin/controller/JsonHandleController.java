@@ -26,14 +26,14 @@ public class JsonHandleController {
 
     @GetMapping("/getExcelJson")
     @ResponseBody
-    public ResponseEntity<String> getExcelJson(String excelName, int titleIndex, int colunmCounts) {
+    public ResponseEntity<String> getExcelJson(String excelName, int titleIndex, int colunmCounts, String projectCode) {
         // 读取json文件
         String filePath = "E:\\绘锦工作室\\excel保存\\";
         String osName = System.getProperty("os.name").toLowerCase();
         if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix")) {
             filePath = "/home/webDemo/files/";
         }
-        String filePathAndName = filePath + excelName;
+        String filePathAndName = filePath + projectCode + File.separator + excelName;
         File file = new File(filePathAndName);
         JSONArray jsonArray = new JSONArray();
         try {
@@ -164,6 +164,7 @@ public class JsonHandleController {
      * 根据excel名称、sheet名称以及需要解析的列，返回json格式解析数据
      * sheetNameConfig格式：sheetName:
      * 示例：sheetName1:2:
+     *
      * @return json
      */
     @GetMapping("/getJsonBySheetNameAndColumn")

@@ -19,6 +19,10 @@ public class LoginIntercept implements HandlerInterceptor {
             // 表示已经登录
             return true;
         }
+        if (request.getRequestURI().contains("getExcelJson")) {
+            // 后端接口，无需登录
+            return true;
+        }
         // 执行到此代码表示未登录，未登录就跳转到登录页面
         response.sendRedirect("/login");
         return false;

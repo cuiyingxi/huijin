@@ -25,7 +25,7 @@ public class LoginController {
             User user1 = userService.findUserByNameAndPassword(user);
             if (user1 != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("userinfo", "userinfo");
+                session.setAttribute("userinfo", user1);
                 return "redirect:/update";
             }
         }

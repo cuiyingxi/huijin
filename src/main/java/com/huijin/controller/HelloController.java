@@ -2,6 +2,7 @@ package com.huijin.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.huijin.model.User;
 import org.apache.poi.ss.usermodel.*;
 import org.junit.platform.commons.util.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
@@ -31,8 +33,11 @@ public class HelloController {
 
     @PostMapping("/uploadExcelAndSave")
     @ResponseBody
-    public String uploadExcelAndSave(MultipartFile file) throws IOException {
-        return saveFile(file);
+    public String uploadExcelAndSave(HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws IOException {
+        // 1.得到 HttpSession 对象
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute("userinfo");
+        return saveFile(file, user);
     }
 
 
@@ -98,7 +103,7 @@ public class HelloController {
     }
 
 
-    private String saveFile(MultipartFile file) throws IOException {
+    private String saveFile(MultipartFile file, User user) throws IOException {
         if (file == null || StringUtils.isBlank(file.getOriginalFilename())) {
             return "{\"code\":999,\"message\":\"file is null\"}";
         }
@@ -110,7 +115,7 @@ public class HelloController {
             filePath = "/home/webDemo/files/";
         }
         System.out.println("fileName:" + fileName);
-        File file1 = new File(filePath + fileName);
+        File file1 = new File(filePath + user.getProject() + File.separator + fileName);
         OutputStream outputStream = new FileOutputStream(file1);
         InputStream inputStream = file.getInputStream();
         byte[] buffer = new byte[4096];
@@ -127,10 +132,13 @@ public class HelloController {
 
 
     @PostMapping("/uploadExcelAndParse")
-    public String uploadExcelAndParse(MultipartFile file, int titleIndex, int colunmCounts, Model model) throws IOException {
+    public String uploadExcelAndParse(HttpServletRequest request, HttpServletResponse response, MultipartFile file, int titleIndex, int colunmCounts, Model model) throws IOException {
         if (file == null || StringUtils.isBlank(file.getOriginalFilename())) {
             return "file is null";
         }
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute("userinfo");
+        saveFile(file, user);
         // 文件保存
         InputStream inputStream = file.getInputStream();
 
@@ -166,6 +174,11 @@ public class HelloController {
         JSONObject result = new JSONObject();
         result.put("data", jsonArray);
         model.addAttribute("userJson", result.toJSONString());
+        model.addAttribute("urlRequest",
+                "http://121.36.102.236:8080/getExcelJson?excelName=" + file.getOriginalFilename()
+                        + "&titleIndex=" + titleIndex
+                        + "&colunmCounts=" + colunmCounts
+                        + "&projectCode=" + user.getProject());
         return "success";
     }
 }
