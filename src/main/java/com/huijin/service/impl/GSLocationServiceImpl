@@ -1,0 +1,30 @@
+package com.huijin.service.impl;
+
+import com.huijin.dao.GSLocationDao;
+import com.huijin.model.PersonLocationInfo;
+import com.huijin.service.GSLocationService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class GSLocationServiceImpl implements GSLocationService {
+
+    @Resource
+    private GSLocationDao locationDao;
+
+    @Override
+    public void saveData(List<PersonLocationInfo> personLocationInfoList) {
+        List<String> ids = new ArrayList<>();
+        personLocationInfoList.forEach(e -> ids.add(e.getPersonId()));
+        locationDao.deleteById(ids);
+        locationDao.save(personLocationInfoList);
+    }
+
+    @Override
+    public List<PersonLocationInfo> getLocationDataInfos() {
+        return locationDao.getLocationDataInfos();
+    }
+}
