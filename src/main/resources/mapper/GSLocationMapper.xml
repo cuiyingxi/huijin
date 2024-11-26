@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huijin.dao.GSLocationDao">
+
+    <resultMap id="PersonLocationInfo" type="com.huijin.model.PersonLocationInfo">
+        <result column="alarm" jdbcType="INTEGER" property="alarm"/>
+        <result column="card_type" jdbcType="INTEGER" property="cardType"/>
+        <result column="card_no" jdbcType="VARCHAR" property="cardno"/>
+        <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="department" jdbcType="VARCHAR" property="department"/>
+        <result column="dept_id" jdbcType="VARCHAR" property="deptId"/>
+        <result column="device_name" jdbcType="VARCHAR" property="deviceName"/>
+        <result column="device_sn" jdbcType="VARCHAR" property="deviceSn"/>
+        <result column="elevation" jdbcType="VARCHAR" property="elevation"/>
+        <result column="gender" jdbcType="VARCHAR" property="gender"/>
+        <result column="gender" jdbcType="VARCHAR" property="gender"/>
+        <result column="heart_rate" jdbcType="INTEGER" property="heartRate"/>
+        <result column="id_number" jdbcType="VARCHAR" property="idNumber"/>
+        <result column="in_ix" jdbcType="NUMERIC" property="inlX"/>
+        <result column="last_in_time" jdbcType="VARCHAR" property="lastInTime"/>
+        <result column="latitude" jdbcType="VARCHAR" property="latitude"/>
+        <result column="longitude" jdbcType="VARCHAR" property="longitude"/>
+        <result column="masterX" jdbcType="NUMERIC" property="masterX"/>
+        <result column="nX" jdbcType="NUMERIC" property="nX"/>
+        <result column="nY" jdbcType="NUMERIC" property="nY"/>
+        <result column="person_id" jdbcType="VARCHAR" property="personId"/>
+        <result column="person_name" jdbcType="VARCHAR" property="personName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="pile_no" jdbcType="VARCHAR" property="pileNo"/>
+        <result column="plate_number" jdbcType="VARCHAR" property="plateNumber"/>
+        <result column="project_id" jdbcType="VARCHAR" property="projectId"/>
+        <result column="region_code" jdbcType="VARCHAR" property="regionCode"/>
+        <result column="region_id" jdbcType="VARCHAR" property="regionId"/>
+        <result column="region_name" jdbcType="VARCHAR" property="regionName"/>
+        <result column="ring_num" jdbcType="VARCHAR" property="ringNum"/>
+        <result column="stay_time" jdbcType="INTEGER" property="stayTime"/>
+        <result column="team_id" jdbcType="VARCHAR" property="teamId"/>
+        <result column="team_name" jdbcType="VARCHAR" property="teamName"/>
+        <result column="update_time" jdbcType="VARCHAR" property="updateTime"/>
+        <result column="vehicle_type" jdbcType="VARCHAR" property="vehicleType"/>
+        <result column="volume" jdbcType="VARCHAR" property="volume"/>
+        <result column="work_type_name" jdbcType="VARCHAR" property="workTypeName"/>
+    </resultMap>
+
+    <select id="getLocationDataInfos" resultMap="PersonLocationInfo">
+        select alarm ,card_type ,card_no ,company_id ,company_name ,department
+                     ,dept_id ,device_name ,device_sn ,elevation ,gender ,heart_rate ,id_number ,in_ix ,last_in_time
+                     ,latitude ,longitude ,masterX ,nX ,nY ,oximeter ,pX ,pY ,person_id ,person_name
+                     ,phone ,pile_no ,plate_number ,project_id ,region_code ,region_id ,region_name
+                     ,ring_num ,stay_time ,team_id ,team_name ,update_time ,vehicle_type ,volume
+                     ,work_type_name
+        from gs_location_data
+    </select>
+    <!-- 插入 -->
+    <insert id="save" parameterType="java.util.List">
+        insert into gs_location_data ( alarm ,card_type ,card_no ,company_id ,company_name ,department
+                                     ,dept_id ,device_name ,device_sn ,elevation ,gender ,heart_rate ,id_number ,in_ix ,last_in_time
+                                     ,latitude ,longitude ,masterX ,nX ,nY ,oximeter ,pX ,pY ,person_id ,person_name
+                                     ,phone ,pile_no ,plate_number ,project_id ,region_code ,region_id ,region_name
+                                     ,ring_num ,stay_time ,team_id ,team_name ,update_time ,vehicle_type ,volume
+                                     ,work_type_name
+        )
+        values
+        <foreach item="item" collection="personLocationInfoList" separator=",">
+            (    #{item.alarm,jdbcType=INTEGER}, #{item.cardType,jdbcType=INTEGER}, #{item.cardno,jdbcType=VARCHAR}, #{item.companyId,jdbcType=VARCHAR},
+            #{item.companyName,jdbcType=VARCHAR}, #{item.department,jdbcType=VARCHAR}, #{item.deptId,jdbcType=VARCHAR}, #{item.deviceName,jdbcType=VARCHAR},
+            #{item.deviceSn,jdbcType=VARCHAR}, #{item.elevation,jdbcType=VARCHAR} , #{item.gender,jdbcType=VARCHAR} , #{item.heartRate,jdbcType=INTEGER} ,
+            #{item.idNumber,jdbcType=VARCHAR} , #{item.inlX,jdbcType=NUMERIC} , #{item.lastInTime,jdbcType=VARCHAR} , #{item.latitude,jdbcType=VARCHAR} ,
+            #{item.longitude,jdbcType=VARCHAR} , #{item.masterX,jdbcType=NUMERIC} , #{item.nX,jdbcType=NUMERIC} , #{item.nY,jdbcType=NUMERIC} ,
+            #{item.oximeter,jdbcType=INTEGER} , #{item.pX,jdbcType=NUMERIC} , #{item.pY,jdbcType=NUMERIC} , #{item.personId,jdbcType=VARCHAR} ,
+            #{item.personName,jdbcType=VARCHAR} , #{item.phone,jdbcType=VARCHAR} , #{item.pileNo,jdbcType=VARCHAR} , #{item.plateNumber,jdbcType=VARCHAR} ,
+            #{item.projectId,jdbcType=VARCHAR} , #{item.regionCode,jdbcType=VARCHAR} , #{item.regionId,jdbcType=VARCHAR} , #{item.regionName,jdbcType=VARCHAR} ,
+            #{item.ringNum,jdbcType=VARCHAR} , #{item.stayTime,jdbcType=INTEGER} , #{item.teamId,jdbcType=VARCHAR} , #{item.teamName,jdbcType=VARCHAR} ,
+            #{item.updateTime,jdbcType=VARCHAR} , #{item.vehicleType,jdbcType=VARCHAR} , #{item.volume,jdbcType=VARCHAR} , #{item.workTypeName,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteById" parameterType="java.util.List">
+        delete from gs_location_data where person_id in (
+        <foreach item="item" collection="ids" separator=",">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+        )
+    </delete>
+
+
+</mapper>
